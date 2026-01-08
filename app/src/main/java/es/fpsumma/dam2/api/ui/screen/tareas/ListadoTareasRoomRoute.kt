@@ -19,18 +19,10 @@ fun ListadoTareasRoomRoute(
 
     ListadoTareasContent(
         state = state,
+        onBack = { navController.popBackStack() },
+        onAdd = { navController.navigate(Routes.TAREA_ADD) },
+        onOpenDetalle = { id -> navController.navigate(Routes.tareaView(id)) },
+        onDelete = { id -> vm.deleteTareaById(id) },
         modifier = modifier,
-        onBack = {
-            navController.popBackStack()
-        },
-        onAdd = {
-            navController.navigate(Routes.TAREA_ADD)
-        },
-        onOpenDetalle = { id ->
-            navController.navigate(Routes.tareaView(id))
-        },
-        onDelete = { id ->
-            vm.deleteTareaById(id)
-        }
     )
 }
