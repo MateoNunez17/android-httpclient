@@ -1,13 +1,17 @@
 package es.fpsumma.dam2.api.viewmodel
 
 import android.app.Application
+import androidx.compose.animation.SharedTransitionScope
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import es.fpsumma.dam2.api.data.local.AppDatabase
 import es.fpsumma.dam2.api.data.local.entity.TareaEntity
+import es.fpsumma.dam2.api.model.Tarea
+import es.fpsumma.dam2.api.ui.screen.tareas.TareasUIState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -17,7 +21,19 @@ class TareasViewModel(app: Application) : AndroidViewModel(app) {
         app, AppDatabase::class.java, "tareas.db"
     ).fallbackToDestructiveMigration(false).build()
 
+
     private val dao = db.tareaDao()
+
+
+    //Propiedad que representa el estado.
+    val state: StateFlow<TareasUIState> =
+        dao.getAllTareas()
+            .map { lista ->
+                TareasUIState(
+                    tareas = lista.map { Tarea(it.id, it.titulo, it.descripcion) }
+                )
+            }
+            .stateIn(viewModelScope, SharingStarted.Lazily, TareasUIState())
 
     val tareas: StateFlow<List<TareaEntity>> =
         dao.getAllTareas().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
