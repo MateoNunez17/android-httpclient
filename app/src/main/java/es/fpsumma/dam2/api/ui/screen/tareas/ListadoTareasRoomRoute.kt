@@ -16,7 +16,7 @@ fun ListadoTareasRoomRoute(
     modifier: Modifier = Modifier,
 ) {
     val state by vm.state.collectAsState()
-    
+
     ListadoTareasContent(
         state = state,
         modifier = modifier,
