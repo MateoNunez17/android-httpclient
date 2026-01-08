@@ -35,8 +35,9 @@ class TareasViewModel(app: Application) : AndroidViewModel(app) {
             }
             .stateIn(viewModelScope, SharingStarted.Lazily, TareasUIState())
 
-    val tareas: StateFlow<List<TareaEntity>> =
-        dao.getAllTareas().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    //val tareas: StateFlow<List<TareaEntity>> =
+    //dao.getAllTareas().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
 
     fun getTarea(id: Int): StateFlow<TareaEntity?> =
         dao.getTarea(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
