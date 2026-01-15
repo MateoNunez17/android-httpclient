@@ -1,18 +1,19 @@
 package es.fpsumma.dam2.api.ui.screen.tareas
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.Column
+import es.fpsumma.dam2.api.model.Tarea
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalleTareaContent(
-    tarea: String,
+    tarea: Tarea?,
     onBack: () -> Unit,
-    onSave: (titulo: String, descripcion: String) -> Unit
+    onSave: (String, String) -> Unit,
 ) {
-
-    val tareaFlow = remember(id) { vm.getTarea(id) }
-    val tarea by tareaFlow.collectAsStateWithLifecycle(initialValue = null)
+    if (tarea == null) {
+        Column {
+            Text(text = "Cargando...")
+        }
+    } 
 }
-
